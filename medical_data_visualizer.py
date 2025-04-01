@@ -34,12 +34,6 @@ def draw_cat_plot():
 # 10
 def draw_heat_map():
     # 11
-<<<<<<< HEAD
-    df_heat = df
-    if df_heat.iloc['ap_hi'] >= df_heat.iloc['ap_lo']:
-        pass
-
-=======
     df_heat = df_heat[
     (df_heat['ap_lo'] <= df_heat['ap_hi']) &
     (df_heat['height'] >= df_heat['height'].quantile(0.025)) &
@@ -47,7 +41,6 @@ def draw_heat_map():
     (df_heat['weight'] >= df_heat['weight'].quantile(0.025)) &
     (df_heat['weight'] <= df_heat['weight'].quantile(0.975))
     ]
->>>>>>> 1fe6c33 (03_31_2025)
     # 12
     corr = None
 
