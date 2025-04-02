@@ -8,7 +8,7 @@ import numpy as np
 df = pd.read_csv('medical_examination.csv')
 
 # 2
-df['overweight'] = df['weight'].apply(lambda x: 1 if x>25 else 0)
+df['overweight'] = (df['weight'] / ((df['height'] / 100) ** 2) > 25).astype(int)
 
 # 3
 df['cholesterol'] = df['cholesterol'].apply(lambda x: 0 if x<=1 else 1)
@@ -34,13 +34,12 @@ def draw_cat_plot():
 # 10
 def draw_heat_map():
     # 11
-    df_heat = df.copy()
-    df_heat = df_heat[
-    (df_heat['ap_lo'] <= df_heat['ap_hi']) &
-    (df_heat['height'] >= df_heat['height'].quantile(0.025)) &
-    (df_heat['height'] <= df_heat['height'].quantile(0.975)) &
-    (df_heat['weight'] >= df_heat['weight'].quantile(0.025)) &
-    (df_heat['weight'] <= df_heat['weight'].quantile(0.975))
+    df_heat = df[
+    (df['ap_lo'] <= df['ap_hi']) &
+    (df['height'] >= df['height'].quantile(0.025)) &
+    (df['height'] <= df['height'].quantile(0.975)) &
+    (df['weight'] >= df['weight'].quantile(0.025)) &
+    (df['weight'] <= df['weight'].quantile(0.975))
     ]
     # 12
     corr = df_heat.corr()
@@ -52,7 +51,7 @@ def draw_heat_map():
     fig, ax = plt.subplots(figsize=(16, 9))
 
     # 15
-    sns.heatmap(corr, mask=mask, square=True, annot=True, linewidths=0.5, fmt=".1f")
+    sns.heatmap(corr, mask=mask, square=True, annot=True, linewidths=0.5, fmt="0.1f")
 
     # 16
     fig.savefig('heatmap.png')
